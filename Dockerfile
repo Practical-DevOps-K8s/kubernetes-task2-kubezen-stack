@@ -8,8 +8,7 @@ RUN apt-get update -qq && \
 
 ENV RAILS_ENV="development" \
     BUNDLE_DEPLOYMENT="0" \
-    BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
+    BUNDLE_PATH="/usr/local/bundle"
 
 COPY Gemfile Gemfile.lock ./
 
@@ -20,4 +19,5 @@ COPY . .
 
 EXPOSE 3000
 
+ENTRYPOINT ["bash", "bin/docker-entrypoint"]
 CMD ["bundle", "exec", "puma", "-b", "0.0.0.0", "-p", "3000", "-C", "config/puma.rb"]

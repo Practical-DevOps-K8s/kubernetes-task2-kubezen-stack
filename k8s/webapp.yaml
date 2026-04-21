@@ -21,17 +21,10 @@ spec:
         ports:
           - containerPort: 3000
         env:
-          - name: DB_HOST
-            value: "postgres-service"
-          - name: DB_PORT
-            value: "5432"
-          - name: DB_USER
-            value: "postgres"
-          - name: DB_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: postgres-secret
-                key: postgres-password
+          - name: RAILS_ENV
+            value: "development"
+          - name: DATABASE_URL
+            value: "postgresql://postgres:admin123@postgres-service:5432/app_development"
 ---
 apiVersion: v1
 kind: Service
@@ -41,7 +34,7 @@ spec:
   selector:
     app: webapp
   ports:
-  - protocol: TCP    
+  - protocol: TCP
     port: 80
     targetPort: 3000
     nodePort: 32000

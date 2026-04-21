@@ -27,6 +27,10 @@ spec:
       - name: postgres
         image: postgres:16
         env:
+        - name: POSTGRES_USER
+          value: "postgres"
+        - name: POSTGRES_DB
+          value: "app_development"
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:

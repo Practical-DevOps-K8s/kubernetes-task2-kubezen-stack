@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-deployment
+  labels:
+    app: webapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - name: ruby-app
+        image: jouk2310/ruby-app:latest
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 3000
+        env:
+          - name: DB_HOST
+            value: "postgres-service"
+          - name: DB_PORT
+            value: "5432"
+          - name: DB_USER
+            value: "postgres"
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: postgres-password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service
+spec:
+  selector:
+    app: webapp
+  ports:
+  - protocol: TCP    
+    port: 80
+    targetPort: 3000
+    nodePort: 32000
+  type: NodePort

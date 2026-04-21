@@ -20,4 +20,4 @@ COPY . .
 EXPOSE 3000
 
 ENTRYPOINT ["bash", "bin/docker-entrypoint"]
-CMD ["bundle", "exec", "puma", "-b", "0.0.0.0", "-p", "3000", "-C", "config/puma.rb"]
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
